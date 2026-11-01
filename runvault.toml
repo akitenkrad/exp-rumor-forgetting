@@ -1,0 +1,81 @@
+require_docs = true
+
+[[metric_patterns]]
+pattern = "p_survive.{cond}"
+meaning = "Fraction of seeds with at least one spreader at the horizon."
+direction = "up"
+[metric_patterns.axes]
+cond = "Parameter condition such as l0p50_d0p20."
+
+[[metric_patterns]]
+pattern = "s_qs.{cond}"
+meaning = "Mean quasi-stationary spreader fraction among surviving trials."
+direction = "none"
+[metric_patterns.axes]
+cond = "Parameter condition such as l0p50_d0p20."
+
+[[metric_patterns]]
+pattern = "known_qs.{cond}"
+meaning = "Mean quasi-stationary spreader-plus-stifler fraction among surviving trials."
+direction = "none"
+[metric_patterns.axes]
+cond = "Parameter condition such as l0p50_d0p20."
+
+[[metric_patterns]]
+pattern = "ever.{cond}"
+meaning = "Mean fraction of people who have ever heard the rumor by termination."
+direction = "up"
+[metric_patterns.axes]
+cond = "Parameter condition such as l0p50_d0p20."
+
+[[metric_patterns]]
+pattern = "ignorant_final.{cond}"
+meaning = "Mean final ignorant fraction."
+direction = "none"
+[metric_patterns.axes]
+cond = "Parameter condition such as l0p50_d0p20."
+
+[metrics.isolated_frac]
+meaning = "Mean fraction of degree-zero vertices across trial networks."
+direction = "none"
+scope = ["run"]
+
+[[metric_patterns]]
+pattern = "check.{id}"
+meaning = "Whether a validation check passed."
+direction = "up"
+[metric_patterns.axes]
+id = "Validation ID v1 through v7."
+
+[metrics.checks_failed]
+meaning = "Number of failed validation checks."
+unit = "count"
+direction = "down"
+scope = ["run"]
+
+[parameters."/config"]
+meaning = "Experiment configuration path."
+[parameters."/name"]
+meaning = "Run label."
+[parameters."/network"]
+meaning = "Contact network type."
+[parameters."/n"]
+meaning = "Population size."
+unit = "count"
+[parameters."/mean_degree"]
+meaning = "Requested ER mean degree, or null for complete mixing."
+[parameters."/sigma"]
+meaning = "Stifling probability per eligible conversation."
+[parameters."/lambdas"]
+meaning = "Transmission probabilities in the parameter grid."
+[parameters."/deltas"]
+meaning = "Forgetting rates in the parameter grid."
+[parameters."/t_max"]
+meaning = "Simulation horizon."
+unit = "time"
+[parameters."/seeds"]
+meaning = "Trial seed identifiers."
+[parameters."/forget"]
+meaning = "Forgetting target set."
+[parameters."/validations"]
+meaning = "Validation IDs executed by check."
