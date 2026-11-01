@@ -67,6 +67,13 @@ impl ContactNetwork {
     }
 
     #[inline]
+    pub fn has_neighbor(&self, index: usize) -> bool {
+        match self {
+            Self::Complete { n } => *n >= 2,
+            Self::Csr { offsets, .. } => offsets[index + 1] > offsets[index],
+        }
+    }
+
     pub fn sample_neighbor(&self, speaker: usize, rng: &mut SimRng) -> Option<usize> {
         match self {
             Self::Complete { n } => {

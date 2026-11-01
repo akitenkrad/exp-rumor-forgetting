@@ -29,13 +29,26 @@ pub struct RumorWorld {
     pub extinction_time: Option<f64>,
 }
 
+/// The first `ceil(0.01 N)` people of a shuffled order who have at least one neighbour.
+///
+/// An isolated person can never be talked to, so the only way for them to be a spreader is to
+/// start as one; such a spreader is never stifled and, without forgetting, never stops. Seeding
+/// only people who can talk keeps that artifact out of the survival counts.
+fn initial_spreaders(order: &[usize], network: &ContactNetwork, n: usize) -> Vec<usize> {
+    order
+        .iter()
+        .copied()
+        .filter(|&index| network.has_neighbor(index))
+        .take(n.div_ceil(100))
+        .collect()
+}
+
 impl RumorWorld {
     pub fn new(n: usize, t_max: u64, network: ContactNetwork, forget: ForgetMode, rng: &mut SimRng) -> Self {
         let mut states = vec![RumorState::Ignorant; n];
         let mut order: Vec<usize> = (0..n).collect();
         order.shuffle(rng);
-        let initially_spreading = n.div_ceil(100);
-        for &index in &order[..initially_spreading] {
+        for index in initial_spreaders(&order, &network, n) {
             states[index] = RumorState::Spreader;
         }
         Self::from_parts(states, Arc::new(network), forget, t_max)
@@ -45,7 +58,7 @@ impl RumorWorld {
         let mut states = vec![RumorState::Ignorant; n];
         let mut order: Vec<usize> = (0..n).collect();
         order.shuffle(rng);
-        for &index in &order[..n.div_ceil(100)] {
+        for index in initial_spreaders(&order, &network, n) {
             states[index] = RumorState::Spreader;
         }
         Self::from_parts(states, network, forget, t_max)

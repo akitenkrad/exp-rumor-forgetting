@@ -55,9 +55,28 @@ fn complete_partner_is_uniform_over_everyone_except_self() {
 
 #[test]
 fn isolated_spreader_conversation_has_no_state_effect() {
+    // Isolated people are no longer seeded as spreaders, so build one by hand.
+    let net = ContactNetwork::Csr {
+        n: 2,
+        offsets: vec![0, 0, 0],
+        neighbors: Vec::new(),
+        isolated: 2,
+    };
+    let mut world = RumorWorld::from_states(vec![RumorState::Spreader, RumorState::Ignorant], net, ForgetMode::Both);
+    let parameters = RumorParameters {
+        lambda: 1.0,
+        sigma: 1.0,
+        delta: 0.0,
+    };
+    advance_to(&mut world, 10.0, parameters, &mut SimRng::from_seed(0));
+    assert!(world.conversations > 0);
+    assert_eq!(world.state(0), RumorState::Spreader);
+    assert_eq!(world.state(1), RumorState::Ignorant);
+
+    // And a full ER trial with no edges now starts without spreaders.
     let spec = TrialSpec::new(2, NetworkKind::Er, 0.0, 1.0, 1.0, 0.0, 10, ForgetMode::Both, 0);
     let result = rumor_simulation::runner::run_trial(&spec).unwrap();
-    assert_eq!(result.final_s, 1);
+    assert_eq!(result.final_s, 0);
     assert_eq!(result.isolated_fraction, 1.0);
 }
 
@@ -90,4 +109,35 @@ fn stifler_only_forgetting_excludes_spreaders() {
         ForgetMode::StiflerOnly,
     );
     assert_eq!(world.forgettable_count(), 1);
+}
+
+#[test]
+fn isolated_people_are_never_initial_spreaders() {
+    // 200 people: only 0-1 and 2-3 are linked, everyone else is isolated.
+    let n = 200;
+    let mut offsets = vec![0usize; n + 1];
+    let mut neighbors = Vec::new();
+    for index in 0..n {
+        match index {
+            0 => neighbors.push(1),
+            1 => neighbors.push(0),
+            2 => neighbors.push(3),
+            3 => neighbors.push(2),
+            _ => {}
+        }
+        offsets[index + 1] = neighbors.len();
+    }
+    for seed in 0..50 {
+        let net = ContactNetwork::Csr {
+            n,
+            offsets: offsets.clone(),
+            neighbors: neighbors.clone(),
+            isolated: n - 4,
+        };
+        let world = RumorWorld::new(n, 10, net, ForgetMode::Both, &mut SimRng::from_seed(seed));
+        assert_eq!(world.spreader_count(), 2, "ceil(0.01 N) spreaders");
+        for index in 4..n {
+            assert_eq!(world.state(index), RumorState::Ignorant, "seed {seed}: isolated person {index} seeded");
+        }
+    }
 }
