@@ -13,6 +13,7 @@ Rust and [uv](https://docs.astral.sh/uv/) are required. Development runs must us
 ```bash
 uv sync
 uv run rumor-tools ode --out reference.csv
+uv run rumor-tools blog-figures --runs-root results/rumor --out fig/blog
 cargo test
 cargo run --release -- check --scratch
 cargo run --release -- run --config configs/main.toml --seeds 0 --scratch

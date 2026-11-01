@@ -25,6 +25,7 @@ After production runs exist, draw both planned figure alternatives with:
 
 ```bash
 uv run rumor-tools plot --run RUN_DIR --complete COMPLETE_RUN_DIR --out fig
+uv run rumor-tools blog-figures --runs-root results/rumor --out fig/blog
 ```
 
 The plot command writes `survival-boundary.png`, including the interpolated `p_survive = 0.5` contour and the theoretical `lambda = delta` line, plus `prevalence-panels.png`.

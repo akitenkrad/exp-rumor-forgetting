@@ -25,6 +25,7 @@ uv run pytest tools/tests
 
 ```bash
 uv run rumor-tools plot --run RUN_DIR --complete COMPLETE_RUN_DIR --out fig
+uv run rumor-tools blog-figures --runs-root results/rumor --out fig/blog
 ```
 
 `survival-boundary.png` には，線形補間した `p_survive = 0.5` の等高線と理論境界 `lambda = delta` を描きます．もう一方の `prevalence-panels.png` は準定常量を示します．
