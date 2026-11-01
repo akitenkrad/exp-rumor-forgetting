@@ -14,7 +14,7 @@ pub type RecordResult<T> = Result<T, Box<dyn Error>>;
 pub fn start_run(subcommand: &str, parameters: &Value, label: &str, scratch: bool) -> RecordResult<(RunvaultRecorder, RunHandle)> {
     let run = Run::start(
         RunOptions::new("rumor", subcommand)
-            .repo_id("rumor-forgetting")
+            .repo_id("exp-rumor-forgetting")
             .domain("simulation")
             .scratch(scratch)
             .parameters(parameters)?
