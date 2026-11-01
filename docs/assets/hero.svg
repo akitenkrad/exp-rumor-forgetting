@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
+  <title id="title">Rumor Forgetting</title>
+  <desc id="desc">A network transitions among ignorant, spreader, and stifler states while forgetting returns people to ignorance.</desc>
+  <style>
+    .bg{fill:#f7f7f5}.title{fill:#252525;font:700 44px system-ui,sans-serif}.sub{fill:#5F5E5A;font:20px system-ui,sans-serif}.edge{stroke:#b8b7b2;stroke-width:3}.i{fill:#fff;stroke:#5F5E5A;stroke-width:4}.s{fill:#534AB7}.r{fill:#0F6E56}.arrow{fill:none;stroke:#534AB7;stroke-width:5;marker-end:url(#head)}
+    @media (prefers-color-scheme: dark){.bg{fill:#181817}.title{fill:#f1f1ef}.sub{fill:#c8c7c2}.edge{stroke:#55544f}.i{fill:#181817;stroke:#c8c7c2}.s{fill:#9b8cff}.r{fill:#55b99a}.arrow{stroke:#9b8cff}}
+  </style>
+  <defs><marker id="head" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" class="s"/></marker></defs>
+  <rect class="bg" width="1200" height="300" rx="24"/>
+  <text class="title" x="70" y="105">Rumor Forgetting</text>
+  <text class="sub" x="70" y="145">continuous-time I / S / R simulation</text>
+  <g transform="translate(690 45)">
+    <path class="edge" d="M70 100L210 45M70 100L220 165M210 45L365 95M220 165L365 95M365 95L455 185"/>
+    <circle class="i" cx="70" cy="100" r="28"/><circle class="s" cx="210" cy="45" r="28"/><circle class="s" cx="220" cy="165" r="28"/><circle class="r" cx="365" cy="95" r="28"/><circle class="i" cx="455" cy="185" r="28"/>
+    <path class="arrow" d="M345 128C320 205 215 220 142 182"/>
+    <text class="sub" x="250" y="245">forgetting</text>
+  </g>
+</svg>

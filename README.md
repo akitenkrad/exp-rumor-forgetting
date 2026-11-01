@@ -1,59 +1,25 @@
-# rumor
+<p align="center"><img src="docs/assets/hero.svg" width="100%"></p>
 
-TODO: このリポジトリが再現する対象，または検証する研究課題を記述する．Cargo workspace + uv workspace の 2 プロジェクト構成．
+**English** | [日本語](README.ja.md)
 
-## 構成
+# Rumor Forgetting
 
-- `simulation/` — Rust シミュレーション．クレート `rumor-simulation`，バイナリ `rumor`．
-- `tools/` — Python 製可視化・分析ツール．パッケージ `rumor-tools`（src レイアウト，`tools/src/rumor_tools/`）．
-- `results/` — シミュレーション結果の出力先（gitignore 対象）．
+Companion code for a Zenn article about a continuous-time I/S/R rumor model with forgetting. It includes a Rust Gillespie simulation, an independent Python RK4 reference, validation checks, aggregation, and plotting.
 
-## ビルド & 実行
+## Quick start
 
-全コマンドは workspace ルート（本ディレクトリ）から実行する．
+Rust and [uv](https://docs.astral.sh/uv/) are required. Development runs must use `--scratch`.
 
 ```bash
-# Rust シミュレーション
-cargo build --release
-cargo run --release -- run --help
-cargo run --release -- sweep --help
-
-# Python ツール
 uv sync
-uv run rumor-tools --help
-uv run rumor-tools visualize --help
-uv run rumor-tools visualize-sweep --help
-uv run rumor-tools show-experiment-settings --results-dir results/latest
-```
-
-`visualize-sweep` はパラメータ依存図に加えて，各パラメータ組み合わせを格子状に並べた
-進行アニメーション (`sweep_grid_animation.gif`) を生成する．これは sweep を
-`--snapshot-interval N` (N>0) 付きで実行した場合のみ生成される（スナップショットが
-無ければ警告のみ出してスキップ）．
-
-## テスト & Lint
-
-```bash
+uv run rumor-tools ode --out reference.csv
 cargo test
-cargo clippy
-cargo fmt --check
+cargo run --release -- check --scratch
+cargo run --release -- run --config configs/main.toml --seeds 0 --scratch
 ```
 
-## 出力構造
+See [Model and implementation](docs/model.md) and [CLI and reproduction](docs/cli.md) for details.
 
-各実行はタイムスタンプ付きサブディレクトリに保存される．`results/latest` は最新の実行へのシンボリックリンク．
+## License
 
-```
-results/
-├── latest -> 20260101_120000
-├── 20260101_120000/
-│   ├── metrics.csv
-│   ├── config.json          ← 実行時の設定値（show-experiment-settings で表示可能）
-│   └── snapshots/
-└── ...
-```
-
-## 参照
-
-- 出典: TBD（再現なら元論文，新規実験なら研究計画）
-- 設計ノート: TBD
+[MIT License](LICENSE)
