@@ -55,6 +55,27 @@ pub fn aggregate_conditions(trials: &[TrialResult]) -> Vec<ConditionAggregate> {
 }
 
 pub fn condition_label(lambda: f64, delta: f64) -> String {
-    let number = |value: f64| format!("{value:.2}").replace('.', "p");
+    // Two decimals by default (`0p50`); a third one only when it is not zero (`0p001`),
+    // so the small-delta grid does not collapse onto `0p00`.
+    let number = |value: f64| {
+        let mut text = format!("{value:.3}");
+        if text.ends_with('0') {
+            text.pop();
+        }
+        text.replace('.', "p")
+    };
     format!("l{}_d{}", number(lambda), number(delta))
+}
+
+#[cfg(test)]
+mod label_tests {
+    use super::condition_label;
+
+    #[test]
+    fn small_deltas_get_distinct_labels() {
+        assert_eq!(condition_label(0.5, 0.2), "l0p50_d0p20");
+        assert_eq!(condition_label(0.25, 0.001), "l0p25_d0p001");
+        assert_ne!(condition_label(0.25, 0.001), condition_label(0.25, 0.002));
+        assert_eq!(condition_label(1.0, 0.0), "l1p00_d0p00");
+    }
 }
