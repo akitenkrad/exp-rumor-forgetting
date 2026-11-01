@@ -1,10 +1,4 @@
-"""rumor-tools — 統合 CLI ディスパッチャ．
-
-Usage:
-    rumor-tools visualize [...]
-    rumor-tools visualize-sweep [...]
-    rumor-tools show-experiment-settings [...]
-"""
+"""Command-line dispatcher for reference generation and plotting."""
 from __future__ import annotations
 
 import argparse
@@ -14,20 +8,11 @@ import sys
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(
         prog="rumor-tools",
-        description="Visualization & analysis tools",
+        description="Rumor-forgetting analysis tools",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
-    subparsers.add_parser("visualize", help="単一実行結果の可視化", add_help=False)
-    subparsers.add_parser(
-        "visualize-sweep",
-        help="スイープ結果の可視化 (パラメータ依存図 + 組み合わせ別グリッドアニメーション)",
-        add_help=False,
-    )
-    subparsers.add_parser(
-        "show-experiment-settings",
-        help="実行結果ディレクトリの設定値を表示 (config.json / sweep_config.json)",
-        add_help=False,
-    )
+    subparsers.add_parser("ode", help="generate independent ODE references", add_help=False)
+    subparsers.add_parser("plot", help="plot runvault aggregates", add_help=False)
 
     argv = sys.argv[1:] if argv is None else argv
     if not argv or argv[0] in {"-h", "--help"}:
@@ -36,14 +21,11 @@ def main(argv: list[str] | None = None) -> None:
 
     command = argv[0]
     rest = argv[1:]
-    if command == "visualize":
-        from rumor_tools.visualize import main as run_main
+    if command == "ode":
+        from rumor_tools.ode import main as run_main
         run_main(rest)
-    elif command == "visualize-sweep":
-        from rumor_tools.visualize_sweep import main as run_main
-        run_main(rest)
-    elif command == "show-experiment-settings":
-        from rumor_tools.show_experiment_settings import main as run_main
+    elif command == "plot":
+        from rumor_tools.plot import main as run_main
         run_main(rest)
     else:
         parser.parse_args(argv)  # 不正なサブコマンドはここでエラーになる
