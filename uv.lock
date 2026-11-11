@@ -20,6 +20,14 @@ members = [
 ]
 
 [[package]]
+name = "blog-figure-style"
+version = "0.1.0"
+source = { git = "https://github.com/akitenkrad/blog-figure-style?tag=v0.1.0#e3f318013fe04f3ce255020d1b3025525eb42c12" }
+dependencies = [
+    { name = "matplotlib" },
+]
+
+[[package]]
 name = "colorama"
 version = "0.4.6"
 source = { registry = "https://pypi.org/simple" }
@@ -211,43 +219,6 @@ sdist = { url = "https://files.pythonhosted.org/packages/a9/95/a3dbbb5028f35eafb
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e7/05/c19819d5e3d95294a6f5947fb9b9629efb316b96de511b418c53d245aae6/cycler-0.12.1-py3-none-any.whl", hash = "sha256:85cef7cff222d8644161529808465972e51340599459b8ac3ccbac5a854e0d30", size = 8321, upload-time = "2023-10-07T05:32:16.783Z" },
 ]
-
-[[package]]
-name = "rumor-tools"
-version = "0.1.0"
-source = { editable = "tools" }
-dependencies = [
-    { name = "matplotlib" },
-    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
-    { name = "numpy", version = "2.5.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
-    { name = "pandas" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "matplotlib", specifier = ">=3.8" },
-    { name = "numpy", specifier = ">=1.26" },
-    { name = "pandas", specifier = ">=2.2" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "pytest" },
-]
-
-[package.metadata.requires-dev]
-dev = [{ name = "pytest", specifier = ">=8.0" }]
-
-[[package]]
-name = "rumor-workspace"
-version = "0.1.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "rumor-tools" },
-]
-
-[package.metadata]
-requires-dist = [{ name = "rumor-tools", editable = "tools" }]
 
 [[package]]
 name = "fonttools"
@@ -916,6 +887,45 @@ sdist = { url = "https://files.pythonhosted.org/packages/0e/df/f15f80383f152452d
 wheels = [
     { url = "https://files.pythonhosted.org/packages/5a/17/cebee01d1c0c1441174cf0456ddc91b280d79acb65340c05e41d77866ee8/python_dateutil-3.0.0-py2.py3-none-any.whl", hash = "sha256:3c79630202e4152c6add678446984236efe4f57e84d8e892aab0637bab82e9fd", size = 94659, upload-time = "2026-10-21T23:41:43.431Z" },
 ]
+
+[[package]]
+name = "rumor-tools"
+version = "0.1.0"
+source = { editable = "tools" }
+dependencies = [
+    { name = "blog-figure-style" },
+    { name = "matplotlib" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.12'" },
+    { name = "numpy", version = "2.5.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
+    { name = "pandas" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pytest" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "blog-figure-style", git = "https://github.com/akitenkrad/blog-figure-style?tag=v0.1.0" },
+    { name = "matplotlib", specifier = ">=3.8" },
+    { name = "numpy", specifier = ">=1.26" },
+    { name = "pandas", specifier = ">=2.2" },
+]
+
+[package.metadata.requires-dev]
+dev = [{ name = "pytest", specifier = ">=8.0" }]
+
+[[package]]
+name = "rumor-workspace"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "rumor-tools" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "rumor-tools", editable = "tools" }]
 
 [[package]]
 name = "six"
